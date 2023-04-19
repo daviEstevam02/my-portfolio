@@ -1,124 +1,151 @@
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { Inter, Chivo_Mono } from 'next/font/google'
+
+import UseAnimations from 'react-useanimations'
+
+import instagram from 'react-useanimations/lib/instagram'
+import twitter from 'react-useanimations/lib/twitter'
+import linkedin from 'react-useanimations/lib/linkedin'
+import github from 'react-useanimations/lib/github'
+import mail from 'react-useanimations/lib/mail'
+import { useEffect, useState } from 'react'
+
+import Typewriter from "typewriter-effect";
+
+import { MdWavingHand } from 'react-icons/md'
+import { Header } from '@/components/Header'
+
 
 const inter = Inter({ subsets: ['latin'] })
+const chivoMono = Chivo_Mono({ 
+  subsets: ['latin'],
+  variable: '--chivoMono-font'  
+ })
+
+ interface IRepositoryGit {
+  id: string;
+  name: string;
+  owner: IOwner;
+  private: boolean;
+  description: string;
+  created_at: string;
+  html_url: string;
+}
+interface IOwner {
+  avatar_url: string;
+  login: string;
+}
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+
+  const [repositories, setRepositories] = useState<IRepositoryGit[]>([]);
+
+  useEffect(() => {
+      fetch('https://api.github.com/users/daviEstevam02/repos')
+      .then(response => response.json())
+      .then((data) => setRepositories(data))
+  },[])
+
+  const presentationSection = () =>{
+    return(
+      <div className='px-8 xl:w-[1220px] section-1 xl:flex-1 xl:flex xl:items-center xl:justify-center'>
+        <div className='flex justify-center'>
+          <Image src='/profilePic.jpeg' className='ml-0 mr-4 rounded-full border-gray-darkest'  width={300} height={220} alt="front-end developer image"/>
+        </div>
+        <div className='xl:min-w-[650px] mt-20 xl:mt-0'>
+          <h2 className='text-gray-dark text-2xl md:text-[34px] text-center font'>Olá! Me chamo Davi!👋</h2>
+          <div className={`text-gray-medium text-lg lg:max-w-[650px] text-center mt-6 ${chivoMono.className}`}>
+          <Typewriter
+            onInit={(typewriter)=> {
+            typewriter
+            .changeDelay(20)
+            .typeString("Desenvolvedor front-end com mais de 4 anos no mercado de trabalho de tecnologia, focado no desenvolvimento de páginas web responsivas utilizando as ferramentas mais atuais do mercado!")
+            .start()
+            }}
             />
-          </a>
+          </div>
         </div>
       </div>
+    )
+  }
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+  return (
+   <>
+      <Header />
+      <div className={`w-full h-full pb-40 pt-40 xl:pt-0 bg-primary-500 ${chivoMono.className}`}>
+
+        <div className='flex justify-center h-screen'>
+          
+          {presentationSection()}
+        
+        </div>
+
+        <div className='container px-5 mx-auto my-0 lg:max-w-[800px]'>
+          <div className='mt-10 ' id='section-2'>
+           <div className='flex justify-center align-center'>
+           <h2 className='text-gray-dark  text-2xl md:text-[34px] '>Ultimos projetos</h2>
+            <UseAnimations animation={github} strokeColor='#3F3F3F' size={50}/>
+           </div>
+
+           <ul className='flex text-[20px] flex-col text-gray-medium text-center justify-evenly list-none lg:text-[25px]'>
+              {
+                repositories.slice(Math.max(repositories.length - 7, 0)).map(repository => (
+                  <li className='mt-5 hover:text-gray-dark ' key={repository.id}><a href={repository.html_url}>{ repository.name }</a></li>
+                ))
+              }
+           </ul>
+          </div>
+
+        <div className='mt-10 section-3 lg:mt-32' id='section-3'>
+         <h2 className='text-gray-dark text-2xl md:text-[34px] text-center mt-14' >Trabalhos anteriores</h2>
+          <ul className='flex text-lg md:text-[20px] mt-5 flex-wrap text-gray-medium text-center justify-evenly list-none lg:text-[25px]'>
+            <li className='mr-3'>Go-it</li>
+            <li className='mr-3'>Trentim</li>
+            <li className='mr-3'>Digix</li>
+            <li className='mr-3'>Pfizer</li>
+            <li className='mr-3'>DLGreen</li>
+            <li className='mr-3'>Fabric</li>
+            <li className='mr-3'>Kantar Ibope Media</li>
+            <li className='mr-3'>Total BR</li>
+            <li className='mr-3'>Klabin</li>
+            <li className='mr-3'>Deloitte</li>
+            <li className='mr-3'>Mooh tech</li>
+          </ul>
+        </div>
+
+        <div className='mt-16 section-4 lg:mt-60'  id='section-4'>
+          <h2 className='text-gray-dark text-2xl md:text-[34px] text-center mt-10'>Vamos nos conectar!</h2>
+          <div className='flex justify-center mt-6 button-wrapper align-center'>
+              <button className='mr-5  border-none w-[50px] h-[50px] hover:scale-105 transition-transform bg-gray-darkest rounded-lg flex justify-center items-center'>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/_davi.estevam_/">
+                 <UseAnimations strokeColor='#A3A3A3'  animation={instagram} size={32} autoPlay={true} />
+                </a>
+              </button>
+
+              <button className='mr-5 border-none w-[50px] h-[50px] hover:scale-105 transition-transform bg-gray-darkest rounded-lg flex justify-center items-center'>
+                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/estevam_davi"> 
+                  <UseAnimations strokeColor='#A3A3A3' animation={twitter} size={32} autoPlay={true} />
+                </a>
+              </button>
+
+              <button className='mr-5 border-none w-[50px] h-[50px] hover:scale-105 transition-transform bg-gray-darkest rounded-lg flex justify-center items-center'>
+                <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/davi-cavalcante-4788a7181/">
+                  <UseAnimations strokeColor='#A3A3A3'  animation={linkedin} size={32} />
+                </a>
+              </button>
+
+              <button className='mr-5 border-none w-[50px] h-[50px] hover:scale-105 transition-transform bg-gray-darkest rounded-lg flex justify-center items-center'>
+                <a target="_blank" rel="noopener noreferrer" href="https://mail.google.com/mail/?view=cm&fs=1&to=daviestevam02@gmail.com">
+                  <UseAnimations strokeColor='#A3A3A3'  animation={mail} size={32} />
+                </a>
+              </button>
+
+          </div>
+        </div>
+
+
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`${inter.className} mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p
-            className={`${inter.className} m-0 max-w-[30ch] text-sm opacity-50`}
-          >
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+   </>
   )
 }
