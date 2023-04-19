@@ -84,7 +84,7 @@ export default function Home() {
           <div className='mt-10 ' id='section-2'>
            <div className='flex justify-center align-center'>
            <h2 className='text-gray-dark  text-2xl md:text-[34px] '>Ultimos projetos</h2>
-            <UseAnimations animation={github} strokeColor='#3F3F3F' size={50}/>
+            <UseAnimations animation={github} loop={true} strokeColor='#3F3F3F' size={50}/>
            </div>
 
            <ul className='flex text-[20px] flex-col text-gray-medium text-center justify-evenly list-none lg:text-[25px]'>
