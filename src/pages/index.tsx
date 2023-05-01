@@ -10,6 +10,9 @@ import github from 'react-useanimations/lib/github'
 import mail from 'react-useanimations/lib/mail'
 import { useEffect, useState } from 'react'
 
+import { DiGitBranch } from 'react-icons/di'
+import { AiOutlineStar } from 'react-icons/ai'
+
 import Typewriter from "typewriter-effect";
 
 import { MdWavingHand } from 'react-icons/md'
@@ -30,6 +33,9 @@ const chivoMono = Chivo_Mono({
   description: string;
   created_at: string;
   html_url: string;
+  language: string;
+  forks: number;
+  stargazers_count: number
 }
 interface IOwner {
   avatar_url: string;
@@ -44,6 +50,7 @@ export default function Home() {
       fetch('https://api.github.com/users/daviEstevam02/repos')
       .then(response => response.json())
       .then((data) => setRepositories(data))
+      console.log(repositories)
   },[])
 
   const presentationSection = () =>{
@@ -83,17 +90,44 @@ export default function Home() {
         <div className='container px-5 mx-auto my-0 lg:max-w-[800px]'>
           <div className='mt-10 ' id='section-2'>
            <div className='flex justify-center align-center'>
-           <h2 className='text-gray-dark  text-2xl md:text-[34px] '>Ultimos projetos</h2>
+           <h2 className='text-gray-dark  text-2xl md:text-[34px] '>Últimos projetos</h2>
             <UseAnimations animation={github} loop={true} strokeColor='#3F3F3F' size={50}/>
            </div>
 
-           <ul className='flex text-[20px] flex-col text-gray-medium text-center justify-evenly list-none lg:text-[25px]'>
+           <div className='grid w-full gap-3 lg:grid-cols-3 text-gray-medium'>
               {
-                repositories.slice(Math.max(repositories.length - 7, 0)).map(repository => (
-                  <li className='mt-5 hover:text-gray-dark ' key={repository.id}><a href={repository.html_url}>{ repository.name }</a></li>
+                repositories.slice(Math.max(repositories.length - 6, 0)).map(repository => (
+                  <a target="_blank" rel="noopener noreferrer"  href={repository.html_url} className='w-full h-full lg:max-h-[165px] lg:hover:scale-105 lg:transition-transform lg:max-w-[500px] px-3 py-3 lg:flex lg:flex-col mt-5 border rounded-sm  border-l-gray-medium' key={repository.id}>
+                    <div className='text-gray-dark'>{ repository.name }</div>
+                    <div className='mt-2'>
+                      <p className='text-[12px]'>
+                        {repository.description}
+                      </p>
+                    </div>
+                    <div className='flex items-center justify-between mt-auto text-gray-dark'>
+                      <p>
+                        {repository.language}
+                      </p>
+                      <div className='flex items-center'>
+                        <div className='flex items-center mr-2'>
+                          <AiOutlineStar size={18}/>
+                          <span>
+                            {repository.stargazers_count}
+                          </span>
+                        </div>
+                       <div className='flex items-center'>
+                        
+                       <DiGitBranch size={18}/>
+                       <span>
+                        {repository.forks}
+                       </span>
+                       </div>
+                      </div>
+                    </div>
+                  </a>
                 ))
               }
-           </ul>
+           </div>
           </div>
 
         <div className='mt-10 section-3 lg:mt-32' id='section-3'>

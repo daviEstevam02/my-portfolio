@@ -34,7 +34,7 @@ export function Header() {
 
             <div className={` ${navIsVisible ? 'right-0' : '-right-full'} bg-primary-500 xl:bg-transparent z-[49] fixed top-0 bottom-0 flex flex-col items-center justify-center w-full xl:w-auto  xl:static gap-x-9 xl:flex-row xl:justify-end text-gray-medium`}>
                 <div  className='mt-10 xl:mt-0 xl:mr-10'>
-                    <a href="#section-2" className='transition duration-300 group hover:text-gray-dark' onClick={navVisibilityHandle}>Ultimos projetos
+                    <a href="#section-2" className='transition duration-300 group hover:text-gray-dark' onClick={navVisibilityHandle}>Últimos projetos
                     <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-gray-medium"></span>
                     </a>
                 </div>
