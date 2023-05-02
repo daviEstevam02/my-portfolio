@@ -147,7 +147,12 @@ export default function Home() {
           </ul>
         </div>
 
-        <div className='mt-16 section-4 lg:mt-60'  id='section-4'>
+        <div className='cv-section'>
+          <h2 className='text-gray-dark text-2xl md:text-[34px] text-center mt-20' >Quer me conhecer mais?</h2>
+          <h4 className='text-gray-medium text-2xl md:text-[25px] text-center mt-14' >Clique <a href='CVDaviCavalcante.pdf' className='transition duration-300 text-[#FFDA29] group' download='CVDaviCavalcante.pdf'>aqui</a> para fazer o download do meu Currículo</h4>
+        </div>
+
+        <div className='mt-16 section-4 lg:mt-52'  id='section-4'>
           <h2 className='text-gray-dark text-2xl md:text-[34px] text-center mt-10'>Vamos nos conectar!</h2>
           <div className='flex justify-center mt-6 button-wrapper align-center'>
               <button className='mr-5  border-none w-[50px] h-[50px] hover:scale-105 transition-transform bg-gray-darkest rounded-lg flex justify-center items-center'>
